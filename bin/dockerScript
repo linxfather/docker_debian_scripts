@@ -49,7 +49,14 @@ fi
 if [ "$arg1" = "shell" ] && [ -f "images/$arg2/Dockerfile" ]; then
     set +e
     name="$namePrefix$arg2"
-    docker exec -it $name sh
+    docker exec -it $name bash
+    exit
+fi
+
+if [ "$arg1" = "shell_as_root" ] && [ -f "images/$arg2/Dockerfile" ]; then
+    set +e
+    name="$namePrefix$arg2"
+    docker exec -u root -it $name bash
     exit
 fi
 
@@ -60,12 +67,14 @@ echo "bin/dockerScript create_dockerImage %IMAGE%"
 echo "bin/dockerScript build_image %IMAGE% [-force]"
 echo "bin/dockerScript run_image %IMAGE%"
 echo "bin/dockerScript shell %IMAGE%"
+echo "bin/dockerScript shell_as_root %IMAGE%"
 echo ":"
 echo "Docker"
 echo ":"
 echo "RM IMAGE   --- docker rmi %IMAGE%"
 echo "LIST IMAGE --- docker images"
-echo "SHELL      --- docker exec -it %NAME% sh"
+echo "LIST RUNNING --- docker ps"
+echo "SHELL        --- docker exec -it %NAME% bash"
 
 
 
