@@ -29,6 +29,15 @@ if [ "$arg1" = "build_image" ] && [ -f "images/$arg2/Dockerfile" ]; then
     cd images/$arg2
     docker build -t $arg2 .
     echo "OK: image $arg2 build"
+    # NEED to invalidate existing container
+    set +e
+    name="$namePrefix$arg2"
+    line=$(docker ps -a --format "{{.Names}}" | grep -w $name)
+    if [ "$line" = "$name" ]; then
+        docker container rm -f $name
+        echo "OK: container removed"
+    fi
+    #
     exit
 fi
 
@@ -73,8 +82,9 @@ echo "Docker"
 echo ":"
 echo "RM IMAGE   --- docker rmi %IMAGE%"
 echo "LIST IMAGE --- docker images"
-echo "LIST RUNNING --- docker ps"
+echo "LIST RUNNING --- docker ps -a"
 echo "SHELL        --- docker exec -it %NAME% bash"
+echo "STOP         --- docker container rm -f %NAME%"
 
 
 
