@@ -20,17 +20,23 @@
 ```
 HELP
 :
-bin/dockerScript create_dockerImage %IMAGE%
-bin/dockerScript build_image %IMAGE% [-force]
-bin/dockerScript run_image %IMAGE%
-bin/dockerScript shell %IMAGE%
-:
-Docker
-:
-RM IMAGE   --- docker rmi %IMAGE%
-LIST IMAGE --- docker images
-SHELL      --- docker exec -it %NAME% sh
+echo "bin/dockerScript create_dockerImage %IMAGE%"
+echo "bin/dockerScript build_image %IMAGE% [-force]"
+echo "bin/dockerScript run_image %IMAGE%"
+echo "bin/dockerScript shell %IMAGE%"
+echo "bin/dockerScript shell_as_root %IMAGE%"
 ```
+
+## Images
+
+- golang_imagev1
+    - debian 12, installed: golang, ginkgo
+- clang_imagev1
+    - debian 12, installed: g++, libcriterion-dev
+- clang_golang_v1
+    - debian 12
+        - installed: golang, ginkgo
+        - installed: g++, libcriterion-dev
 
 ## License
 - [MIT](LICENSE.md)
