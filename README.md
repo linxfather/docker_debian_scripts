@@ -38,5 +38,33 @@ echo "bin/dockerScript shell_as_root %IMAGE%"
         - installed: golang, ginkgo
         - installed: g++, libcriterion-dev
 
+## How to set fast Docker registry mirrors
+
+- For debian distros (Debian, Ubuntu, Mint)
+- Create or append to /etc/docker/daemon.json
+```shell
+cat << EOF | sudo tee -a /etc/docker/daemon.json
+{ "registry-mirrors" : [ "https://dockerhub.timeweb.cloud", "https://huecker.io", "https://mirror.gcr.io", "https://c.163.com", "https://registry.docker-cn.com", "https://daocloud.io" ] }
+EOF
+```
+- Verify /etc/docker/daemon.json
+    - ```cat /etc/docker/daemon.json```
+- Restart docker service
+    - ```systemctl restart docker```
+- Verify docker service config
+    - ```systemctl restart docker```
+
+See full script:
+```shell 
+cat << EOF | sudo tee -a /etc/docker/daemon.json
+{ "registry-mirrors" : [ "https://dockerhub.timeweb.cloud", "https://huecker.io", "https://mirror.gcr.io", "https://c.163.com", "https://registry.docker-cn.com", "https://daocloud.io" ] }
+EOF
+cat /etc/docker/daemon.json
+systemctl restart docker
+docker info | grep -A 4 "Registry Mirrors"
+```
+
+![Docker-speed](screens/docker-mirror.png)
+
 ## License
 - [MIT](LICENSE.md)
